@@ -16,8 +16,11 @@ void primes_before_n(int n) {
         isPrime[i] = true;
      }
 
+     // set 0 and 1 to false 
+     prime[0] = prime[1] = false;
+
     // loop through all values below i until sqrt(n) to cross off non-primes
-    for (int i = 0; i < n; i++) {
+    for (int i = 2; i < n; i++) {
         
         if (i >= sqrtN) {
 
@@ -25,7 +28,7 @@ void primes_before_n(int n) {
             int primeCount = 0;
             
             // increment primeCount for each true in prime array
-            for (int i = 0; i < n; i++) {
+            for (int i = 2; i < n; i++) {
                 if (isPrime[i]) {
                     primeCount++;
                 }
@@ -33,7 +36,7 @@ void primes_before_n(int n) {
 
             int primes[primeCount];
             int index = 0;
-            for (int i = 1; i <= n; i++) {
+            for (int i = 2; i <= n; i++) {
                 if (isPrime[i]) {
                     primes[index++] = i;
                 }
@@ -45,15 +48,21 @@ void primes_before_n(int n) {
         }
 
 
+
+
     }
 
 }
 
 
 int main() {
+    int n;
 
+    printf("Enter value of n to find primes: ");
 
+    scanf("%d", &n);
 
+    primes = primes_before_n(n);
 
 
 }
