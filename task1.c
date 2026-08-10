@@ -47,6 +47,11 @@ void primes_before_n(int n) {
             
         }
 
+        for (int j = i + 1; j < n; j++) {
+            if (j % i == 0) {
+                isPrime[j] = false;
+            }
+        }
 
 
 
