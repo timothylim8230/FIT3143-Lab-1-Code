@@ -1,48 +1,69 @@
-#include <stdio.h>;
-#include <math.h>;
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <math.h>
+#
 
 
+ int *isPrimes_before_n(int n, int *count) {
 
-void primes_before_n(int n) {
+    *count = 0;
 
-    // get sqrt of n 
+    // no primes below 2, and the loop below would never run
+    if (n <= 2) {
+        return NULL;
+    }
+
+    // get sqrt of n
     int sqrtN = sqrt(n);
 
-    // initialise array to store if a number is prime or not
-    bool isPrime[n+1];
+    // initialise array to store if a number is isPrime or not
+    // (heap, not a stack array: n can be in the millions)
+    bool *isPrime = malloc((n + 1) * sizeof(bool));
+    if (isPrime == NULL) {
+        return NULL;
+    }
 
-    // set prime array to all true 
+    // set isPrime array to all true 
      for (int i = 0; i <= n; i++) {
         isPrime[i] = true;
      }
 
      // set 0 and 1 to false 
-     prime[0] = prime[1] = false;
+     isPrime[0] = isPrime[1] = false;
 
-    // loop through all values below i until sqrt(n) to cross off non-primes
+    // loop through all values below i until sqrt(n) to cross off non-isPrimes
     for (int i = 2; i < n; i++) {
         
-        if (i >= sqrtN) {
+        if (i > sqrtN) {
 
-            // initialise prime counts 
-            int primeCount = 0;
+            // initialise isPrime counts 
+            int isPrimeCount = 0;
             
-            // increment primeCount for each true in prime array
+            // increment isPrimeCount for each true in isPrime array
             for (int i = 2; i < n; i++) {
                 if (isPrime[i]) {
-                    primeCount++;
+                    isPrimeCount++;
                 }
             }
 
-            int primes[primeCount];
+            int *Primes = malloc(isPrimeCount * sizeof(int));
+            if (Primes == NULL) {
+                free(isPrime);
+                return NULL;
+            }
+
             int index = 0;
-            for (int i = 2; i <= n; i++) {
+            for (int i = 2; i < n; i++) {
                 if (isPrime[i]) {
-                    primes[index++] = i;
+                    Primes[index++] = i;
                 }
             }
 
-            return primes;
+            free(isPrime);
+
+            *count = isPrimeCount;
+            return Primes;
             
             
         }
@@ -63,11 +84,46 @@ void primes_before_n(int n) {
 int main() {
     int n;
 
-    printf("Enter value of n to find primes: ");
+    printf("Enter value of n to find isPrimes: ");
 
-    scanf("%d", &n);
+    if (scanf("%d", &n) != 1) {
+        printf("Invalid input.\n");
+        return 1;
+    }
 
-    primes = primes_before_n(n);
+    int count = 0;
+    int *isPrimes = isPrimes_before_n(n, &count);
 
+    
+    if (n < 100) {
 
+        // small n: print to standard output
+        
+        for (int i = 0; i < count; i++) {
+            printf("%d ", isPrimes[i]);
+        }
+       
+
+    } else {
+
+        // large n: write to a text file
+        FILE *out = fopen("primes.txt", "w");
+        if (out == NULL) {
+            printf("Could not open primes.txt for writing.\n");
+            free(isPrimes);
+            return 1;
+        }
+
+        
+        for (int i = 0; i < count; i++) {
+            fprintf(out, "%d\n", isPrimes[i]);
+        }
+
+        fclose(out);
+        
+    }
+
+    free(isPrimes);
+
+    return 0;
 }
