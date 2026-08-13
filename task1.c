@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
+#include <time.h>
 
 /**
  * Timothy Lim           tlim0034@student.monash.edu
@@ -9,6 +10,7 @@
  */
 
  int *isPrimes_before_n(int n, int *count) {
+
 
     *count = 0;
 
@@ -77,7 +79,7 @@
     // start at i*i: any smaller multiple of i already has a smaller
     // prime factor and was crossed off in an earlier pass
     for (int j = i * i; j < n; j += i) {
-    isPrime[j] = false;
+        isPrime[j] = false;
     }
 
 
@@ -88,6 +90,7 @@
 
 int main() {
     int n;
+    clock_t t;
 
     printf("Enter value of n to find isPrimes: ");
 
@@ -96,9 +99,20 @@ int main() {
         return 1;
     }
 
+    
+    
+
     int count = 0;
+
+    t = clock(); // record time before execution
+
     int *isPrimes = isPrimes_before_n(n, &count);
 
+    t = clock() - t; // get time elapsed since last time recorded after execution
+
+    double timeTaken = ((double)t)/CLOCKS_PER_SEC; // get the time in seconds
+
+    printf("Time taken to compute: %f seconds\n", timeTaken);
     
     if (n < 100) {
 
