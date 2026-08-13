@@ -2,8 +2,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
-#
 
+/**
+ * Timothy Lim           tlim0034@student.monash.edu
+ * Scott Nguyen 33879095 sngu0065@student.monash.edu
+ */
 
  int *isPrimes_before_n(int n, int *count) {
 
