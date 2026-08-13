@@ -68,12 +68,14 @@
             
         }
 
-        for (int j = i + 1; j < n; j++) {
-            if (j % i == 0) {
-                isPrime[j] = false;
-            }
-        }
+    // composite i: its multiples were already crossed off by i's prime factors
+    if (!isPrime[i]) continue;
 
+    // start at i*i: any smaller multiple of i already has a smaller
+    // prime factor and was crossed off in an earlier pass
+    for (int j = i * i; j < n; j += i) {
+    isPrime[j] = false;
+    }
 
 
     }
