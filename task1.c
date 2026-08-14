@@ -139,7 +139,7 @@ int main() {
         }
 
         fclose(out);
-        printf("Primes below n written to primes.txt\n");
+        printf("Primes below n written to primes1.txt\n");
     }
 
     
