@@ -9,7 +9,7 @@
  * Scott Nguyen 33879095 sngu0065@student.monash.edu
  */
 
- int *isPrimes_before_n(int n, int *count) {
+ int *Primes_before_n(int n, int *count) {
 
 
     *count = 0;
@@ -106,7 +106,7 @@ int main() {
 
     t = clock(); // record time before execution
 
-    int *isPrimes = isPrimes_before_n(n, &count);
+    int *isPrimes = Primes_before_n(n, &count);
 
     t = clock() - t; // get time elapsed since last time recorded after execution
 
@@ -117,18 +117,18 @@ int main() {
     if (n < 100) {
 
         // small n: print to standard output
-        
+        printf("Primes below %d:\n", n);
         for (int i = 0; i < count; i++) {
             printf("%d ", isPrimes[i]);
         }
-       
+        printf("\n");
 
     } else {
 
         // large n: write to a text file
-        FILE *out = fopen("primes.txt", "w");
+        FILE *out = fopen("primes1.txt", "w");
         if (out == NULL) {
-            printf("Could not open primes.txt for writing.\n");
+            printf("Could not open primes1.txt for writing.\n");
             free(isPrimes);
             return 1;
         }
@@ -139,9 +139,10 @@ int main() {
         }
 
         fclose(out);
-        
+        printf("Primes below n written to primes.txt\n");
     }
 
+    
     free(isPrimes);
 
     return 0;
