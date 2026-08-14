@@ -9,7 +9,7 @@
  * Scott Nguyen 33879095 sngu0065@student.monash.edu
  */
 
- int *Primes_before_n(int n, int *count) {
+ int *primes_before_n(int n, int *count) {
 
 
     *count = 0;
@@ -52,8 +52,8 @@
                 }
             }
 
-            int *Primes = malloc(isPrimeCount * sizeof(int));
-            if (Primes == NULL) {
+            int *primes = malloc(isPrimeCount * sizeof(int));
+            if (primes == NULL) {
                 free(isPrime);
                 return NULL;
             }
@@ -61,14 +61,14 @@
             int index = 0;
             for (int i = 2; i < n; i++) {
                 if (isPrime[i]) {
-                    Primes[index++] = i;
+                    primes[index++] = i;
                 }
             }
 
             free(isPrime);
 
             *count = isPrimeCount;
-            return Primes;
+            return primes;
             
             
         }
@@ -106,7 +106,7 @@ int main() {
 
     t = clock(); // record time before execution
 
-    int *isPrimes = Primes_before_n(n, &count);
+    int *isPrimes = primes_before_n(n, &count);
 
     t = clock() - t; // get time elapsed since last time recorded after execution
 
