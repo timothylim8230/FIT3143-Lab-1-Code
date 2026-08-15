@@ -1,5 +1,7 @@
 /**
- * Timothy Lim           tlim0034@student.monash.edu
+// Build: gcc -O2 -Wall -fopenmp -o task3.exe task3.c -lm
+// Run:     ./task3.exe <n> <numThreads>
+ * Timothy Lim  33111472          tlim0034@student.monash.edu
  * Scott Nguyen 33879095 sngu0065@student.monash.edu
  */
 
