@@ -82,21 +82,13 @@ int main(int argc, char *argv[])
     }
 
     // ---- step 2 (parallel): block decomposition ----------------------------
-    // Deliberately the same partitioning scheme as task2, so that comparing the
-    // two measures the threading API and not the workload distribution.
-    //
-    // The remaining range [first, n) is split into numThreads contiguous, equal
-    // slices - one per thread - using the identical index arithmetic task2 uses
-    // when it fills its ThreadData array. Thread t owns [sp, ep) and nothing
-    // else, so no two threads ever write the same element and the array needs
-    // no lock. totalPrimes is the one shared value, and reduction(+:) gives
-    // each thread a private copy that is summed at the barrier - which is what
-    // replaces the mutex task2 needs around its shared counter.
-    //
-    // "#pragma omp parallel" rather than "parallel for": the loop being split
-    // is over threads, not over an index range, so each thread computes its own
-    // bounds from omp_get_thread_num() exactly as task2 computes them from the
-    // thread id. This is Method 1 in the unit's Vector_Cell_Product_OMP.c.
+    // split the range above sqrt(n) into one equal slice per thread.
+    // same block decomposition as task2, so comparing the two is fair.
+    // each thread only writes inside its own slice, so no mutex is needed.
+    // reduction(+:) gives each thread its own copy of totalPrimes and adds
+    // them up at the end - this is what replaces task2's mutex.
+    int first = sqrtN + 1;
+.
     int first = sqrtN + 1;
     int total = n - first;
     if (total < 0)
@@ -107,6 +99,10 @@ int main(int argc, char *argv[])
     // Timed separately from totalTime: this is the only part more threads can
     // speed up, so it is what the speedup graphs are computed from.
     double searchTime = now_seconds();
+    // omp parallel, not parallel for: each thread works out its own slice
+    // from its thread number, the same way task2 does from the thread id
+#pragma omp parallel reduction(+ : totalPrimes)
+
 
 #pragma omp parallel reduction(+ : totalPrimes)
     {
