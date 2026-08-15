@@ -1,3 +1,10 @@
+/**
+ * Timothy Lim           tlim0034@student.monash.edu
+ * Scott Nguyen 33879095 sngu0065@student.monash.edu
+ */
+
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
