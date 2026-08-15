@@ -16,7 +16,7 @@
 #include <time.h>
 #include <pthread.h>
 
-#define MAX_THREADS 10
+#define MAX_THREADS 64
 
 bool *isPrime;      
 int   n;            
