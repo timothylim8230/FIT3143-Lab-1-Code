@@ -25,7 +25,7 @@ static double now_seconds(void)
 
 int main(int argc, char *argv[])
 {
-    // 1. PARSE + VALIDATE   argc == 3,   n>= 2 ,  numThreads >= 1
+
     if (argc != 3)
     {
         return 1;
@@ -90,7 +90,6 @@ int main(int argc, char *argv[])
         }
     }
 
-    // ---- step 2 (parallel): block decomposition ----------------------------
     // split the range above sqrt(n) into one equal slice per thread.
     // same block decomposition as task2, so comparing the two is fair.
     // each thread only writes inside its own slice, so no mutex is needed.
@@ -160,20 +159,11 @@ int main(int argc, char *argv[])
                 totalPrimes++;
             }
         }
-    } // implicit barrier: every thread has finished before we read totalPrimes
+    }
 
     searchTime = now_seconds() - searchTime;
 
-    // ---- collect the primes (serial) ---------------------------------------
-    // totalPrimes is already exact: the serial sieve counted [2, sqrtN] and the
-    // blocks counted [sqrtN+1, n) between them, with no gap and no overlap, so
-    // the two together cover [2, n) once.
-    //
-    // This pass stays serial on purpose. Walking the array from low to high
-    // emits the primes in ascending order for free, so there is nothing to sort
-    // or merge. Splitting it across threads would mean each thread needed to
-    // know how many primes came before its slice, which is a prefix sum - more
-    // synchronisation than the pass itself costs.
+
     int *primes = malloc((size_t)totalPrimes * sizeof(int));
     if (totalPrimes > 0 && primes == NULL)
     { // malloc(0) may return NULL legally
@@ -192,11 +182,8 @@ int main(int argc, char *argv[])
 
     double totalTime = now_seconds() - startTime;
 
-    // ---- output ------------------------------------------------------------
     if (n < 100)
     {
-
-        // (a) small n: straight to the screen
         for (int i = 0; i < count; i++)
         {
             printf("%d ", primes[i]);
@@ -206,7 +193,6 @@ int main(int argc, char *argv[])
     else
     {
 
-        // (b) large n: one prime per line in a text file
         FILE *out = fopen(OUTPUT_FILE, "w");
         if (out == NULL)
         {
