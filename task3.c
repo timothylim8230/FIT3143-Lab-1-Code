@@ -96,8 +96,7 @@ int main(int argc, char *argv[])
     // reduction(+:) gives each thread its own copy of totalPrimes and adds
     // them up at the end - this is what replaces task2's mutex.
     int first = sqrtN + 1;
-.
-    int first = sqrtN + 1;
+
     int total = n - first;
     if (total < 0)
     {
@@ -109,7 +108,7 @@ int main(int argc, char *argv[])
     double searchTime = now_seconds();
     // omp parallel, not parallel for: each thread works out its own slice
     // from its thread number, the same way task2 does from the thread id
-#pragma omp parallel reduction(+ : totalPrimes)
+
 
 
 #pragma omp parallel reduction(+ : totalPrimes)
