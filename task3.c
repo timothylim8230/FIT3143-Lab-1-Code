@@ -95,8 +95,8 @@ int main(int argc, char *argv[])
     // each thread only writes inside its own slice, so no mutex is needed.
     // reduction(+:) gives each thread its own copy of totalPrimes and adds
     // them up at the end - this is what replaces task2's mutex.
-    int first = sqrtN + 1;
-.
+    
+
     int first = sqrtN + 1;
     int total = n - first;
     if (total < 0)
